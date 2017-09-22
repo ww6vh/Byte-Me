@@ -52,8 +52,9 @@ def create_user(request):
 
 	instance = User(username = iUsername, password = iPassword, email = iEmail)
 	instance.save()
-	return HttpResponse("User added")
 
+	instance_as_json = serializers.serialize('json', [instance,])
+	return HttpResponse(instance_as_json + "\n was successfully created")
 
 @csrf_exempt
 def create_computer(request):
@@ -68,7 +69,9 @@ def create_computer(request):
 	#User.models.create(username = iUsername, password = iPassword, email = iEmail)
 	instance = Computer(make = iMake, model = iModel, condition = iCondition, description = iDescription)
 	instance.save()
-	return HttpResponse("Computer added")
+	
+	instance_as_json = serializers.serialize('json', [instance,])
+	return HttpResponse(instance_as_json + "\n was successfully created")
 
 @csrf_exempt
 def create_review(request):
@@ -83,7 +86,9 @@ def create_review(request):
 
 	instance = Review(rating = iRating, description = iDescription)
 	instance.save()
-	return HttpResponse("Review added")
+
+	instance_as_json = serializers.serialize('json', [instance,])
+	return HttpResponse(instance_as_json + "\n was successfully created")
 
 
 
