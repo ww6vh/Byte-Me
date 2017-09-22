@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 
 class Computer(models.Model):
+	
+	#Fields 
 	make = models.CharField(max_length=100)
 	model = models.CharField(max_length=100)
 	condition = models.CharField(max_length=10)
@@ -30,7 +32,7 @@ class User(models.Model):
 
 
 class Review(models.Model):
-	rating = models.IntegerField()
+	rating = models.CharField(max_length=10)
 	description = models.CharField(max_length=500)
 	
 
