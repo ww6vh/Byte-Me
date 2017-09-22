@@ -52,7 +52,7 @@ def create_user(request):
 
 	instance = User(username = iUsername, password = iPassword, email = iEmail)
 	instance.save()
-	return HttpResponse("Adele")
+	return HttpResponse("User added")
 
 
 @csrf_exempt
@@ -68,7 +68,7 @@ def create_computer(request):
 	#User.models.create(username = iUsername, password = iPassword, email = iEmail)
 	instance = Computer(make = iMake, model = iModel, condition = iCondition, description = iDescription)
 	instance.save()
-	return HttpResponse("JBeiber!")
+	return HttpResponse("Computer added")
 
 @csrf_exempt
 def create_review(request):
@@ -83,6 +83,8 @@ def create_review(request):
 
 	instance = Review(rating = iRating, description = iDescription)
 	instance.save()
-	return HttpResponse("Beyonce!")
+	return HttpResponse("Review added")
+
+
 
 	

@@ -29,4 +29,5 @@ urlpatterns = [
 	url(r'^api/v1/user/create/$', views.create_user, name = "create_user"),
 	url(r'^api/v1/computer/create/$', views.create_computer, name = "create_computer"),
 	url(r'^api/v1/review/create/$', views.create_review, name = "create_review"),
+
 ]
