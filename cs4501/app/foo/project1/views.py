@@ -90,7 +90,7 @@ def create_user(request):
 	instance.save()
 
 	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json, safe = False)
+	return HttpResponse(instance_as_json)
 
 @csrf_exempt
 def create_computer(request):
@@ -107,7 +107,7 @@ def create_computer(request):
 	instance.save()
 	
 	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json, safe = False)
+	return HttpResponse(instance_as_json)
 
 @csrf_exempt
 def create_review(request):
@@ -124,7 +124,7 @@ def create_review(request):
 	instance.save()
 
 	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json + "\n was successfully created")
+	return HttpResponse(instance_as_json)
 
 def delete_user(request, pk): 
 	try:
@@ -142,7 +142,7 @@ def delete_computer(request, pk):
 	try:
 		computer_instance = User.objects.get(pk=pk)
 	except Computer.DoesNotExist:
-		raise Http404("User does not exist")
+		raise Http404("Computer does not exist")
 
 	save = computer_instance
 	computer_instance.delete()
@@ -154,7 +154,7 @@ def delete_review(request, pk):
 	try:
 		review_instance = User.objects.get(pk=pk)
 	except Review.DoesNotExist:
-		raise Http404("User does not exist")
+		raise Http404("Review does not exist")
 
 	save = review_instance
 	review_instance.delete()
