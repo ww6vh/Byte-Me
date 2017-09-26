@@ -34,7 +34,6 @@ class User(models.Model):
 class Review(models.Model):
 	rating = models.IntegerField()
 	description = models.CharField(max_length=500)
-	
 
 
 
