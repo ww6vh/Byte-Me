@@ -28,7 +28,11 @@ def index(request):
     if resp['status'] != True:
         computers = []
     else:
-        computers = resp["data"]
+        if len(resp['data']) > 3:
+            computers = resp['data'][-3:]
+        else:
+            computers = resp['data']
+        #computers = resp["data"]
     return JsonResponse({"status": True, "data": {"computers": computers}})
 
 

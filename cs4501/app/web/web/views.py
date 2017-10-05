@@ -26,11 +26,12 @@ def post_request(url, post_data):
 def index(request):
     resp = get_request(expApi + 'index')
     return render(request, 'home.html', resp['data'])
-    #return HttpResponse("hellow world")
 
 
 def computer_detail(request, computer_id):
-	resp = get_request(expApi + 'computer/' + computer_id + '/')
-	#computer = get_object_or_404(Computer, pk=computer_id)
-	return render(request, 'detail.html', resp['data'])
+    resp = get_request(expApi + 'computer/' + computer_id + '/')
+    if len(resp['data']['computer']) < 1:
+        return render(request, 'error.html')
+    else:
+        return render(request, 'detail.html', resp['data'])
 

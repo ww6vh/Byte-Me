@@ -20,6 +20,46 @@
     }
 },
 {
+    "model": "project1.computer",
+    "pk": 3,
+    "fields": {
+        "make": "Dell",
+        "model": "XPS 15",
+        "condition": "new",
+        "description": "The smallest 15.6-inch laptop on the planet"
+    }
+},
+{
+    "model": "project1.computer",
+    "pk": 4,
+    "fields": {
+        "make": "HP",
+        "model": "Spectre x360",
+        "condition": "new",
+        "description": "With the latest hardware and unbelievable battery life, this laptop excels at every turn, elegantly sliding into just the mode you need."
+    }
+},
+{
+    "model": "project1.computer",
+    "pk": 5,
+    "fields": {
+        "make": "Alienware",
+        "model": "17 R4",
+        "condition": "used",
+        "description": "Alienware\u2019s most powerful 17-inch gaming laptop is designed for VR with NVIDIA GeForce\u00ae GTX 10-Series graphics and Tobii Aware software, taking you deeper into the game."
+    }
+},
+{
+    "model": "project1.computer",
+    "pk": 6,
+    "fields": {
+        "make": "MSI",
+        "model": "GS Series Stealth Pro",
+        "condition": "new",
+        "description": "Enjoy gaming wherever you go with this MSI Stealth Pro laptop."
+    }
+},
+{
     "model": "project1.user",
     "pk": 1,
     "fields": {
