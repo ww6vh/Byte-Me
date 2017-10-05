@@ -1,6 +1,6 @@
 [
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 1,
     "fields": {
         "make": "Apple",
@@ -10,7 +10,7 @@
     }
 },
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 2,
     "fields": {
         "make": "Lenovo",
@@ -20,7 +20,7 @@
     }
 },
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 3,
     "fields": {
         "make": "Dell",
@@ -30,7 +30,7 @@
     }
 },
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 4,
     "fields": {
         "make": "HP",
@@ -40,7 +40,7 @@
     }
 },
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 5,
     "fields": {
         "make": "Alienware",
@@ -50,7 +50,7 @@
     }
 },
 {
-    "model": "project1.computer",
+    "model": "entity.computer",
     "pk": 6,
     "fields": {
         "make": "MSI",
@@ -60,7 +60,7 @@
     }
 },
 {
-    "model": "project1.user",
+    "model": "entity.user",
     "pk": 1,
     "fields": {
         "username": "Yixuan",
@@ -69,7 +69,7 @@
     }
 },
 {
-    "model": "project1.user",
+    "model": "entity.user",
     "pk": 2,
     "fields": {
         "username": "Wendy",
@@ -78,7 +78,7 @@
     }
 },
 {
-    "model": "project1.user",
+    "model": "entity.user",
     "pk": 3,
     "fields": {
         "username": "Fred",
@@ -87,7 +87,7 @@
     }
 },
 {
-    "model": "project1.review",
+    "model": "entity.review",
     "pk": 1,
     "fields": {
         "rating": 1,
@@ -95,7 +95,7 @@
     }
 },
 {
-    "model": "project1.review",
+    "model": "entity.review",
     "pk": 2,
     "fields": {
         "rating": 5,
