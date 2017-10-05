@@ -9,73 +9,72 @@ from django.http import JsonResponse
 def index(request):
     return HttpResponse("Hello, world!")
 
+def success_response(status, data):
+	return JsonResponse({'status': status, 'data': data})
+
+
+def get_all_computer(request):
+	computers = Computer.objects.all()
+	data = [obj.toJson() for obj in computers]
+	return success_response(True, data)
+
+
 @csrf_exempt
 def get_user(request, pk):
-	user_instance = None
-	if request.method == 'GET':
-		try:
-			user_instance=User.objects.get(pk=pk)
-		except User.DoesNotExist:
-			raise Http404("User does not exist")
+	try:
+		user_instance = User.objects.get(pk=pk)
+	except User.DoesNotExist:
+		raise Http404("User does not exist")
 
-	if request.method == 'POST':
-		try:
-			user_instance = User.objects.get(pk=pk)
-			user_instance.username = request.POST.get('username', "")
-			user_instance.password = request.POST.get('password', "")
-			user_instance.email = request.POST.get('email', "")
-			user_instance.save()
-		except User.DoesNotExist:
-			raise Http404("User does not exist")
-	
-	user_as_json = serializers.serialize('json', [user_instance, ])
-	return HttpResponse(user_as_json, content_type='json')	
+	if request.method == 'GET':
+		data = user_instance.toJson()
+		return success_response(True, data)
+
+	elif request.method == 'POST':
+		user_instance.username = request.POST.get('username', "")
+		user_instance.password = request.POST.get('password', "")
+		user_instance.email = request.POST.get('email', "")
+		user_instance.save()
+		return success_response(True, "Updated")
 
 
 @csrf_exempt
 def get_computer(request, pk):
-	computer_instance = None
+	try:
+		computer_instance = Computer.objects.get(pk=pk)
+	except Computer.DoesNotExist:
+		raise Http404("Computer does not exist")
+
 	if request.method == 'GET':
-		try:
-			computer_instance=Computer.objects.get(pk=pk)
-		except Computer.DoesNotExist:
-			raise Http404("Computer does not exist")
+		data = computer_instance.toJson()
+		return success_response(True, data)
 
-	if request.method == 'POST':
-		try:
-			computer_instance = Computer.objects.get(pk=pk)
-			computer_instance.make = request.POST.get('make', "")
-			computer_instance.model = request.POST.get('model', "")
-			computer_instance.condition = request.POST.get('condition', "")
-			computer_instance.description = request.POST.get('description', "")
-			computer_instance.save()
-		except Computer.DoesNotExist:
-			raise Http404("Computer does not exist")
-	computer_as_json = serializers.serialize('json', [computer_instance, ])
+	elif request.method == 'POST':
+		computer_instance.make = request.POST.get('make', "")
+		computer_instance.model = request.POST.get('model', "")
+		computer_instance.condition = request.POST.get('condition', "")
+		computer_instance.description = request.POST.get('description', "")
+		computer_instance.save()
+		return success_response(True, "Updated")
 
-	return HttpResponse(computer_as_json, content_type='json')
 
 @csrf_exempt
 def get_review(request, pk):
-	review_instance = None
+	try:
+		review_instance = Review.objects.get(pk=pk)
+	except Review.DoesNotExist:
+		raise Http404("Review does not exist")
+
 	if request.method == 'GET':
-		try:
-			review_instance = Review.objects.get(pk=pk)
-		except Review.DoesNotExist:
-			raise Http404("Review does not exist")
+		data = review_instance.toJson()
+		return success_response(True, data)
 
-	if request.method == 'POST':
-		try:
-			review_instance = Review.objects.get(pk=pk)
-			review_instance.rating = request.POST.get('rating', "")
-			review_instance.description = request.POST.get('description', "")
-			review_instance.save()
-
-		except Review.DoesNotExist:
-			raise Http404("Review does not exist")
-	review_as_json = serializers.serialize('json', [review_instance, ])
-
-	return HttpResponse(review_as_json, content_type='json')
+	elif request.method == 'POST':
+		review_instance = Review.objects.get(pk=pk)
+		review_instance.rating = request.POST.get('rating', "")
+		review_instance.description = request.POST.get('description', "")
+		review_instance.save()
+		return success_response(True, "Updated")
 
 @csrf_exempt
 def create_user(request):
@@ -88,9 +87,7 @@ def create_user(request):
 
 	instance = User(username = iUsername, password = iPassword, email = iEmail)
 	instance.save()
-
-	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json)
+	return success_response(True, "New item added")
 
 @csrf_exempt
 def create_computer(request):
@@ -105,9 +102,7 @@ def create_computer(request):
 	#User.models.create(username = iUsername, password = iPassword, email = iEmail)
 	instance = Computer(make = iMake, model = iModel, condition = iCondition, description = iDescription)
 	instance.save()
-	
-	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json)
+	return success_response(True, "New item added")
 
 @csrf_exempt
 def create_review(request):
@@ -122,52 +117,31 @@ def create_review(request):
 
 	instance = Review(rating = iRating, description = iDescription)
 	instance.save()
+	return success_response(True, "New item added")
 
-	instance_as_json = serializers.serialize('json', [instance,])
-	return HttpResponse(instance_as_json)
 
 def delete_user(request, pk): 
 	try:
 		user_instance = User.objects.get(pk=pk)
 	except User.DoesNotExist:
 		raise Http404("User does not exist")
-
-	save = user_instance
 	user_instance.delete()
-	user_as_json = serializers.serialize('json', [user_instance,])
+	return success_response(True, "Item deleted")
 
-	return HttpResponse(user_as_json + " Deleted")
 
 def delete_computer(request, pk): 
 	try:
 		computer_instance = User.objects.get(pk=pk)
 	except Computer.DoesNotExist:
 		raise Http404("Computer does not exist")
-
-	save = computer_instance
 	computer_instance.delete()
-	computer_as_json = serializers.serialize('json', [computer_instance,])
+	return success_response(True, "Item deleted")
 
-	return HttpResponse(computer_as_json + " Deleted")
 
 def delete_review(request, pk): 
 	try:
 		review_instance = User.objects.get(pk=pk)
 	except Review.DoesNotExist:
 		raise Http404("Review does not exist")
-
-	save = review_instance
 	review_instance.delete()
-	review_as_json = serializers.serialize('json', [review_instance,])
-
-	return HttpResponse(review_as_json + " Deleted")
-
-
-
-
-
-
-
-
-
-	
+	return success_response(True, "Item deleted")

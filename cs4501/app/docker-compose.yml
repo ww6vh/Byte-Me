@@ -3,10 +3,10 @@ models:
     external_links:
       -  mysql:db
     volumes:
-      - .:/app
+      - ./foo:/app
     ports:
       - "8001:8000"
-    command: bash -c "cd foo && python manage.py makemigrations && python manage.py migrate && python manage.py loaddata db.json && mod_wsgi-express start-server --working-directory /app/foo --reload-on-changes /app/foo/foo/wsgi.py"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py loaddata db.json && mod_wsgi-express start-server --working-directory ./ --reload-on-changes ./foo/wsgi.py"
 
 exp:
    image: tp33/django
@@ -15,8 +15,8 @@ exp:
    ports:
       - "8002:8000"
    volumes:
-      - .:/app
-   command: "mod_wsgi-express start-server --reload-on-changes app/exp/exp/wsgi.py"
+      - ./exp:/app
+   command: "mod_wsgi-express start-server --reload-on-changes ./exp/wsgi.py"
 
 web:
    image: tp33/django
@@ -25,5 +25,5 @@ web:
    ports:
       - "8000:8000"
    volumes:
-      - .:/app
-   command: "mod_wsgi-express start-server --reload-on-changes app/web/web/wsgi.py"
+      - ./web:/app
+   command: "mod_wsgi-express start-server --reload-on-changes ./web/wsgi.py"

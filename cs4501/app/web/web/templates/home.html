@@ -9,7 +9,7 @@
 
 </head>
 <body>
-	<div class="jumbotron" style="background-image: url('background.jpg') !important">
+	<div class="jumbotron" style="background-image: url( 'background.jpg' ) !important">
 		<div class="container">
 			<font color="white">
 				<h1>Welcome to ByteMe</h1>
@@ -22,11 +22,11 @@
 	
 	<div class="container">
 		<div class="row">
-			{% if cars %}
-			{% for car in cars %}
-			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+			{% if computers %}
+			{% for computer in computers %}
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 				<h2>{{computer.make}} {{computer.model}}</h2>
-				<p><a class="btn btn-default" href="{% url 'computer_detail' computer_id=computer.id %}" role="button">View
+				<p><a class="btn btn-default" href="/computerdetail/{{ computer.computer_id }}/" role="button">View
 					details &raquo;</a></p>
 			</div>
 			{% endfor %}

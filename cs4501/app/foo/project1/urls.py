@@ -22,6 +22,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
 
+	url(r'^api/v1/computer/$', views.get_all_computer, name = "get_all_computer"),
+
 	url(r'^api/v1/user/(?P<pk>[0-9]+)/$', views.get_user, name = "get_user"),
 	url(r'^api/v1/computer/(?P<pk>[0-9]+)/$', views.get_computer, name = "get_computer"),
 	url(r'^api/v1/review/(?P<pk>[0-9]+)/$', views.get_review, name = "get_review"),

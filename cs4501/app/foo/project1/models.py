@@ -10,6 +10,14 @@ class Computer(models.Model):
 	condition = models.CharField(max_length=10)
 	description = models.CharField(max_length=500)
 
+	#Methods
+	def toJson(self):
+		return dict(computer_id = self.id,
+					make = self.make,
+					model = self.model,
+					condition = self.condition,
+					description = self.description)
+
 class User(models.Model):
 	
 	#Fields 
@@ -18,22 +26,22 @@ class User(models.Model):
 	email = models.CharField(max_length=100)
 
 	#Methods 
-	def get_username(Self):
-		return self.username
-
-	def get_password(Self):
-		return self.username
-
-	def get_email(Self):
-		return self.email
-
-	def get_key(Self):
-		return self.pk
+	def toJson(self):
+		return dict(user_id = self.id,
+					username = self.username,
+					password = self.password,
+					email = self.emial)
 
 
 class Review(models.Model):
 	rating = models.IntegerField()
 	description = models.CharField(max_length=500)
+
+	#Methods
+	def toJson(self):
+		return dict(review_id = self.id,
+					rating = self.rating,
+					description = self.description)
 
 
 
