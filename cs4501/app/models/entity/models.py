@@ -30,7 +30,7 @@ class User(models.Model):
 		return dict(user_id = self.id,
 					username = self.username,
 					password = self.password,
-					email = self.emial)
+					email = self.email)
 
 
 class Review(models.Model):
