@@ -20,7 +20,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    
 
 	url(r'^api/v1/computer/$', views.get_all_computer, name = "get_all_computer"),
 
