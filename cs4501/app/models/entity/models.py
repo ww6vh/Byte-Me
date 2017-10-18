@@ -2,21 +2,26 @@ from django.db import models
 
 # Create your models here.
 
-class Computer(models.Model):
-	
-	#Fields 
-	make = models.CharField(max_length=100)
-	model = models.CharField(max_length=100)
-	condition = models.CharField(max_length=10)
-	description = models.CharField(max_length=500)
 
-	#Methods
-	def toJson(self):
-		return dict(computer_id = self.id,
-					make = self.make,
-					model = self.model,
-					condition = self.condition,
-					description = self.description)
+class Computer(models.Model):
+    #Fields
+    make = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    condition = models.CharField(max_length=10)
+    description = models.CharField(max_length=500)
+    #price = models.IntegerField(max_length=10)
+    #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    #Methods
+    def toJson(self):
+        return dict(computer_id = self.id,
+                    make = self.make,
+                    model = self.model,
+                    condition = self.condition,
+                    description = self.description)
+                    #price = self.price,
+                    #user_id = self.user_id)
+
 
 class User(models.Model):
 	
@@ -44,10 +49,8 @@ class Review(models.Model):
 					description = self.description)
 
 
-
-
-
-
-
-
+class Authenticator(models.Model):
+	authenticator = models.CharField(max_length=64, primary_key=True, blank=False)
+	user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+	date_created = models.DateTimeField()
 

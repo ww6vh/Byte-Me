@@ -1,0 +1,35 @@
+{% block title %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+
+</head>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="jumbotron" align="center">
+        <h2>Sign up</h2><br>
+        <form action="/signup/" method="post">
+            {% csrf_token %}
+            {% if message %}
+                {{ message }}<br><br>
+            {% endif %}
+            {% for field in signup_form %}
+            <div class="form-group">
+                <label for="{{field.name}}">{{field.label}}: </label><br>
+                {% if field.value != None %}
+                    <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
+                {% else %}
+                    <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
+                {% endif %}
+            </div>
+            {% endfor%}
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+
+{% endblock %}

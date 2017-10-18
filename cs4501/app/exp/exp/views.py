@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import json
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse, Http404
 
 
@@ -22,6 +23,39 @@ def post_request(url, post_data):
     return resp
 
 
+@csrf_exempt
+def create_user(request):
+    resp = post_request(modelsApi + "user/create/", {
+        "username": request.POST.get("username", ""),
+        "password": request.POST.get("password", ""),
+        "email": request.POST.get("email", "")})
+    return JsonResponse(resp)
+
+
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+        resp = post_request(modelsApi + 'user/authenticate/', {
+            "username": request.POST.get("username", ""),
+            "password": request.POST.get("password", "")
+        })
+        return JsonResponse(resp, status=200)
+
+
+@csrf_exempt
+def logout(request):
+    if request.method == 'POST':
+        resp = post_request(modelsApi + 'authenticator/delete/', {
+            'auth_token': request.COOKIES.get("auth_token", "")
+        })
+        return JsonResponse(resp)
+
+
+def check_authenticator(request):
+    resp = post_request(modelsApi + 'authenticator/check/', request.GET)
+    return JsonResponse(resp)
+
+
 def index(request):
     resp = get_request(modelsApi + "computer")
 
@@ -32,7 +66,6 @@ def index(request):
             computers = resp['data'][-3:]
         else:
             computers = resp['data']
-        #computers = resp["data"]
     return JsonResponse({"status": True, "data": {"computers": computers}})
 
 
