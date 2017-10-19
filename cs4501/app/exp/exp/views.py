@@ -33,13 +33,24 @@ def create_user(request):
 
 
 @csrf_exempt
+def create_computer(request):
+    resp = post_request(modelsApi + "computer/create/", {
+        "make": request.POST.get("make", ""),
+        "model": request.POST.get("make", ""),
+        "condition": request.POST.get("condition", ""),
+        "description": request.POST.get("description", "")
+    })
+    return JsonResponse(resp)
+
+
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         resp = post_request(modelsApi + 'user/authenticate/', {
             "username": request.POST.get("username", ""),
             "password": request.POST.get("password", "")
         })
-        return JsonResponse(resp, status=200)
+        return JsonResponse(resp)
 
 
 @csrf_exempt
@@ -49,6 +60,8 @@ def logout(request):
             'auth_token': request.COOKIES.get("auth_token", "")
         })
         return JsonResponse(resp)
+    else:
+        return JsonResponse({'status': False, 'data': "POST only"})
 
 
 def check_authenticator(request):
@@ -62,10 +75,7 @@ def index(request):
     if resp['status'] != True:
         computers = []
     else:
-        if len(resp['data']) > 3:
-            computers = resp['data'][-3:]
-        else:
-            computers = resp['data']
+        computers = resp['data']
     return JsonResponse({"status": True, "data": {"computers": computers}})
 
 

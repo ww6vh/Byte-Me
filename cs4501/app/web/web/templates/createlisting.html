@@ -12,13 +12,13 @@
 
 
     <div class="jumbotron" align="center">
-        <h2>Log In</h2><br>
-        <form action="/login/" method="post">
+        <h2>Creating listing</h2><br>
+        <form action="/createlisting/" method="post">
             {% csrf_token %}
             {% if message %}
                 {{ message }}<br><br>
             {% endif %}
-            {% for field in login_form %}
+            {% for field in createlisting_form %}
             <div class="form-group">
                 <label for="{{field.name}}">{{field.label}}: </label><br>
                 {% if field.value != None %}
@@ -28,7 +28,7 @@
                 {% endif %}
             </div>
             {% endfor%}
-            <button type="submit">Log In</button>
+            <button type="submit">Create New Listing</button>
         </form>
     </div>
 

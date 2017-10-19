@@ -106,37 +106,46 @@ def get_review(request, pk):
 
 @csrf_exempt
 def create_user(request):
-	if request.method == 'POST':
-		try:
-			iUsername = request.POST["username"]
-			iPassword = request.POST["password"]
-			iEmail = request.POST["email"]
-		except:
-			raise Http404("Not all fields are filled out.")
+    if request.method == 'POST':
+        usernames = User.objects.filter(username=request.POST["username"])
+        if usernames.count() != 0:
+            return success_response(False, "Username already exists", 404)
+        try:
+            iUsername = request.POST["username"]
+            iPassword = request.POST["password"]
+            iEmail = request.POST["email"]
+            instance = User(username=iUsername, password=make_password(iPassword), email=iEmail)
+            instance.save()
+        except:
+            raise Http404("Not all fields are filled out.")
 
-		instance = User(username = iUsername, password = iPassword, email = iEmail)
-		instance.save()
-		return success_response(True, "New item added", 200)
-	else:
-		return success_response(False, "Invalid HTTP request", 404)
+        auth_token = create_authenticator(instance)
+        return success_response(True, "New item added", 200)
+    else:
+        return success_response(False, "Invalid HTTP request", 404)
 
 
 @csrf_exempt
 def create_computer(request):
-	if request.method == 'POST':
-		try:
-			iMake = request.POST["make"]
-			iModel = request.POST["model"]
-			iCondition = request.POST["condition"]
-			iDescription = request.POST["description"]
-		except:
-			raise Http404("Not all fields are filled out.")
-
-		instance = Computer(make = iMake, model = iModel, condition = iCondition, description = iDescription)
-		instance.save()
-		return success_response(True, "New item added", 200)
-	else:
-		return success_response(False, "Invalid HTTP request", 404)
+    if request.method == 'POST':
+        try:
+            auth_token = Authenticator.objects.get(authenticator=request.POST.get('auth_token',''))
+            user = auth_token.user_id
+        except:
+            return success_response(False, "Must log in to post a computer", 404)
+        try:
+            iMake = request.POST["make"]
+            iModel = request.POST["model"]
+            iCondition = request.POST["condition"]
+            iDescription = request.POST["description"]
+            #iPrice = request.POST["price"]
+            instance = Computer(make=iMake, model=iModel, condition=iCondition, description=iDescription)
+            instance.save()
+        except:
+            raise Http404("Not all fields are filled out.")
+        return success_response(True, "New computer added", 200)
+    else:
+        return success_response(False, "Invalid HTTP request", 404)
 
 
 @csrf_exempt
@@ -195,20 +204,21 @@ def delete_review(request, pk):
 
 
 @csrf_exempt
-def create_authenticator(user_id):
-    if Authenticator.objects.filter(user_id=user_id).exists():
-        Authenticator.objects.filter(user_id=user_id).delete()
+def create_authenticator(user):
+    if Authenticator.objects.filter(user_id=user).exists():
+        Authenticator.objects.filter(user_id=user).delete()
     auth_token = hmac.new(
         key=settings.SECRET_KEY.encode('utf-8'),
         msg=os.urandom(32),
         digestmod='sha256',
     ).hexdigest()
 
-    instance = Authenticator(authenticator=auth_token, user_id=user_id, date_created=datetime.now())
+    instance = Authenticator(authenticator=auth_token, user_id=user, date_created=datetime.now())
     instance.save()
     return auth_token
 
 
+@csrf_exempt
 def delete_authenticator(request):
     if request.method == 'POST':
         auth_token = request.POST['auth_token']

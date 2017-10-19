@@ -9,6 +9,9 @@
 
 </head>
 <body>
+    {% if message %}
+        {{ message }}<br><br>
+    {% endif %}
 	<div class="jumbotron" style="background-image: url('http://bestwallpaperhd.com/wp-content/uploads/2017/07/Minimalist-Art.jpg') !important">
 		<div class="container">
 			<font color="white">
@@ -16,7 +19,9 @@
 				<p>We strive to provide you with the best quality computers at low prices</p>
 			</font>
 			<p><a class="btn btn-primary btn-lg" href="/login/" role="button">Log in</a>
-			<a class="btn btn-primary btn-lg" href="/signup/" role="button">Sign up</a></p>
+			<a class="btn btn-primary btn-lg" href="/signup/" role="button">Sign up</a>
+                <a class="btn btn-primary btn-lg" href="/logout/" role="button">Log out</a></p><br>
+            <p><a class="btn btn-primary btn-lg" href="/createlisting/" role="button">Create New Listing</a></p>
 		</div>
 	</div>
 	

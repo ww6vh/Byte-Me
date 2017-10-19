@@ -26,6 +26,7 @@ def post_request(url, post_data):
     return resp
 
 
+@csrf_exempt
 def signup(request):
     auth = request.COOKIES.get('auth_token')
     if auth:
@@ -53,34 +54,63 @@ def signup(request):
 
 @csrf_exempt
 def login(request):
-    auth = request.COOKIES.get('auth_token')
+    #return HttpResponse(request.COOKIES.get('auth_token'))
+    auth = request.COOKIES.get('auth_token', '')
+    #auth_check = request_get(expApi + 'authenticator/check/', auth)
+    #if auth_check['status'] is True:
     if auth:
         return HttpResponseRedirect(reverse('home'))
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
+            #return HttpResponse(form.cleaned_data['username'])
             resp = post_request(expApi + 'user/login/', form.cleaned_data)
-            if resp['status'] is False:
+            if not resp or resp['status'] is False:
                 return render(request, 'login.html', {'login_form': form, 'message': resp['data']})
             else:
                 auth_token = resp['data']['auth_token']
-                next = HttpResponseRedirect(reverse('home'))
-                next.set_cookie('auth_token', auth_token)
-                return next
+                response = HttpResponseRedirect(reverse('home'))
+                response.set_cookie('auth_token', auth_token)
+                return response
         else:
             return render(request, 'login.html', {'login_form': form, 'message': "Username or Password is invalid"})
-    else:
+    if request.method == 'GET':
         form = LoginForm()
-        return render(request, 'login.html', {'login_form': form})
+        return render(request, 'login.html', {'login_form': form, 'auth_token': auth})
+
+
+@csrf_exempt
+def create_listing(request):
+    auth_token = request.COOKIES.get('auth_token')
+    if not auth_token:
+        return HttpResponseRedirect(reverse('login'))
+    if request.method == 'POST':
+        form = CreateListingForm(request.POST)
+        if form.is_valid():
+            resp = post_request(expApi + 'computer/create/', form.cleaned_data)
+            if not resp or resp['status'] is False:
+                return render(request, 'createlisting.html', {'createlisting_form': form, 'message': resp['data'], 'auth_token': auth_token})
+            else:
+                response = HttpResponseRedirect(reverse('home'))
+                return response
+        else:
+            form = CreateListingForm()
+            return render(request, 'createlisting.html', {'createlisting_form': form, 'message': "Invalid information", 'auth_token': auth_token})
+
+    if request.method == 'GET':
+        form = CreateListingForm()
+        return render(request, 'createlisting.html', {'createlisting_form': form, 'auth_token': auth_token})
 
 
 @csrf_exempt
 def logout(request):
     auth = request.COOKIES.get('auth_token')
-    data = {'auth_token': auth}
+    if not auth:
+        return HttpResponseRedirect(reverse('login'))
     response = HttpResponseRedirect(reverse('home'))
     response.delete_cookie('auth_token')
-    resp = post_request(expApi + 'user/logout/', data)
+    #data = {'auth_token': auth}
+    #resp = post_request(expApi + 'user/logout/', data)
     return response
 
 
