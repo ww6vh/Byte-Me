@@ -1,0 +1,105 @@
+[
+{
+    "model": "entity.computer",
+    "pk": 1,
+    "fields": {
+        "make": "Apple",
+        "model": "Macbook Pro 2016",
+        "condition": "new",
+        "description": "stylish"
+    }
+},
+{
+    "model": "entity.computer",
+    "pk": 2,
+    "fields": {
+        "make": "Lenovo",
+        "model": "YOGA 910",
+        "condition": "new",
+        "description": "awesome laptop"
+    }
+},
+{
+    "model": "entity.computer",
+    "pk": 3,
+    "fields": {
+        "make": "Dell",
+        "model": "XPS 15",
+        "condition": "new",
+        "description": "The smallest 15.6-inch laptop on the planet"
+    }
+},
+{
+    "model": "entity.computer",
+    "pk": 4,
+    "fields": {
+        "make": "HP",
+        "model": "Spectre x360",
+        "condition": "new",
+        "description": "With the latest hardware and unbelievable battery life, this laptop excels at every turn, elegantly sliding into just the mode you need."
+    }
+},
+{
+    "model": "entity.computer",
+    "pk": 5,
+    "fields": {
+        "make": "Alienware",
+        "model": "17 R4",
+        "condition": "used",
+        "description": "Alienware\u2019s most powerful 17-inch gaming laptop is designed for VR with NVIDIA GeForce\u00ae GTX 10-Series graphics and Tobii Aware software, taking you deeper into the game."
+    }
+},
+{
+    "model": "entity.computer",
+    "pk": 6,
+    "fields": {
+        "make": "MSI",
+        "model": "GS Series Stealth Pro",
+        "condition": "new",
+        "description": "Enjoy gaming wherever you go with this MSI Stealth Pro laptop."
+    }
+},
+{
+    "model": "entity.user",
+    "pk": 1,
+    "fields": {
+        "username": "Yixuan",
+        "password": "123456",
+        "email": "yixuan@ISA.com"
+    }
+},
+{
+    "model": "entity.user",
+    "pk": 2,
+    "fields": {
+        "username": "Wendy",
+        "password": "123456",
+        "email": "wendy@ISA.com"
+    }
+},
+{
+    "model": "entity.user",
+    "pk": 3,
+    "fields": {
+        "username": "Fred",
+        "password": "123456",
+        "email": "fred@ISA.com"
+    }
+},
+{
+    "model": "entity.review",
+    "pk": 1,
+    "fields": {
+        "rating": 1,
+        "description": "Now you see me"
+    }
+},
+{
+    "model": "entity.review",
+    "pk": 2,
+    "fields": {
+        "rating": 5,
+        "description": "What for dinner?"
+    }
+}
+]
