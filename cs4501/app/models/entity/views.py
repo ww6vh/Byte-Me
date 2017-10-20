@@ -118,7 +118,7 @@ def create_user(request):
             instance.save()
         except:
             #raise Http404("Not all fields are filled out.")
-            return success_response(False, "Not all fields are filled out", 200)
+            return success_response(False, "Not all fields are filled out", 404)
 
         auth_token = create_authenticator(instance)
         return success_response(True, "New item added", 200)
@@ -139,7 +139,7 @@ def create_computer(request):
             instance.save()
         except:
             #raise Http404("Not all fields are filled out.")
-            return success_response(False, "could not create computer", 200)
+            return success_response(False, "could not create computer", 404)
         return success_response(True, "New computer added", 200)
     else:
         return success_response(False, "Invalid HTTP request", 404)

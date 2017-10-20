@@ -10,12 +10,12 @@ class UserTestCase(TestCase):
         pass
     
     def test_createSuccess(self):
-        response = self.client.post('/api/v1/user/create/', {'username': 'fred', 'password': 'pass', 'email': 'jz7zb@virginia.edu'})
+        response = self.client.post('/api/v1/user/create/', {'username': 'bob', 'password': 'pass123', 'email': 'bob@virginia.edu'})
         self.assertEquals(response.status_code, 200)
         self.assertEquals(User.objects.count(), 4)
 
     def test_createFail(self):
-        response = self.client.post('/api/v1/user/create/', {'username': 'fred', 'password': 'pass'})
+        response = self.client.post('/api/v1/user/create/', {'username': 'joe', 'password': 'pass'})
         self.assertEquals(response.status_code, 404)
         self.assertEquals(User.objects.count(), 3)
         
@@ -61,7 +61,7 @@ class ComputerTestCase(TestCase):
         pass
     
     def test_createSuccess(self):
-        response = self.client.post('/api/v1/computer/create/', {'make': 'HP', 'model': 'Spectre', 'condition': 'new', 'description': 'really cool'})
+        response = self.client.post('/api/v1/computer/create/', {'make': 'Google', 'model': 'Chromebook', 'condition': 'new', 'description': 'really cool'})
         self.assertEquals(response.status_code, 200)
         self.assertEquals(Computer.objects.count(), 7)
 
@@ -154,6 +154,3 @@ class ReviewTestCase(TestCase):
         
     def tearDown(self):
         pass
-
-
-    
