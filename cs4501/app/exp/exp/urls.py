@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/index/$', views.index, name='index'),
+    url(r'^api/popular/$', views.populer_computers, name='popular_computers'),
     url(r'^api/computer/(?P<id>[0-9]+)/$', views.computer_detail, name='computer_detail'),
     url(r'^api/computer/create/$', views.create_computer, name='create_computer'),
     url(r'^api/user/create/$', views.create_user, name='create_user'),

@@ -69,7 +69,7 @@ def check_authenticator(request):
     return JsonResponse(resp)
 
 
-def index(request):
+def populer_computers(request):
     resp = get_request(modelsApi + "computer/")
 
     if resp['status'] != True:

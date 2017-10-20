@@ -252,6 +252,6 @@ def authenticate_user(request):
             auth_token = create_authenticator(user)
             return success_response(True, {"auth_token": auth_token}, 200)
         else:
-            return success_response(False, "Either username or password is invalid", 404)
+            return success_response(False, "Either username or password is invalid", 200)
     except:
-        return success_response(False, "Either username or password is invalid", 404)
+        return success_response(False, "Either username or password is invalid", 200)

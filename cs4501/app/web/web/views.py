@@ -46,7 +46,7 @@ def signup(request):
                 except Exception as e:
                     return render(request, 'signup.html', {'signup_form': form, 'message': str(e)})
         else:
-            return render(request, 'signup.html', {'signup_form': form})
+            return render(request, 'signup.html', {'signup_form': form, 'message': "Not all fields are filled"})
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'signup_form': form})
@@ -115,15 +115,13 @@ def logout(request):
 
 
 def index(request):
-
-
-    resp = get_request(expApi + 'index/')
+    resp = get_request(expApi + 'popular/')
     context = {}
     if resp['status'] is True:
         context['popular_computers'] = resp['data']['computers']
     auth_token = request.COOKIES.get('auth_token')
     if auth_token:
-        context['message'] = "You are Logged In"
+        context['message'] = "You are logged in"
     #return render(request, 'home.html', resp['data'])
     return render(request, 'home.html', context)
 
