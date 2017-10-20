@@ -94,7 +94,7 @@ def create_listing(request):
                 response = HttpResponseRedirect(reverse('home'))
                 return response
         else:
-            form = CreateListingForm()
+            #form = CreateListingForm()
             return render(request, 'createlisting.html', {'createlisting_form': form, 'message': "Invalid information", 'auth_token': auth_token})
 
     if request.method == 'GET':
@@ -115,8 +115,17 @@ def logout(request):
 
 
 def index(request):
-    resp = get_request(expApi + 'index')
-    return render(request, 'home.html', resp['data'])
+
+
+    resp = get_request(expApi + 'index/')
+    context = {}
+    if resp['status'] is True:
+        context['popular_computers'] = resp['data']['computers']
+    auth_token = request.COOKIES.get('auth_token')
+    if auth_token:
+        context['message'] = "You are Logged In"
+    #return render(request, 'home.html', resp['data'])
+    return render(request, 'home.html', context)
 
 
 def computer_detail(request, computer_id):

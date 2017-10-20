@@ -30,8 +30,8 @@
 			<div class="container">
 				<h2 align="center">Check out our newest computers<hr></h2>
 			</div>
-			{% if computers %}
-			{% for computer in computers %}
+			{% if popular_computers %}
+			{% for computer in popular_computers %}
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 				<h3>{{computer.make}} {{computer.model}}</h3>
 				<p><a class="btn btn-default" href="/computerdetail/{{ computer.computer_id }}/" role="button">View

@@ -36,7 +36,7 @@ def create_user(request):
 def create_computer(request):
     resp = post_request(modelsApi + "computer/create/", {
         "make": request.POST.get("make", ""),
-        "model": request.POST.get("make", ""),
+        "model": request.POST.get("model", ""),
         "condition": request.POST.get("condition", ""),
         "description": request.POST.get("description", "")
     })
@@ -70,12 +70,16 @@ def check_authenticator(request):
 
 
 def index(request):
-    resp = get_request(modelsApi + "computer")
+    resp = get_request(modelsApi + "computer/")
 
     if resp['status'] != True:
         computers = []
     else:
-        computers = resp['data']
+        #computers = resp['data']
+        if len(resp['data']) > 3:
+            computers = resp['data'][-3:]
+        else:
+            computers = resp['data']
     return JsonResponse({"status": True, "data": {"computers": computers}})
 
 

@@ -109,7 +109,7 @@ def create_user(request):
     if request.method == 'POST':
         usernames = User.objects.filter(username=request.POST["username"])
         if usernames.count() != 0:
-            return success_response(False, "Username already exists", 404)
+            return success_response(False, "Username already exists", 200)
         try:
             iUsername = request.POST["username"]
             iPassword = request.POST["password"]
@@ -117,7 +117,8 @@ def create_user(request):
             instance = User(username=iUsername, password=make_password(iPassword), email=iEmail)
             instance.save()
         except:
-            raise Http404("Not all fields are filled out.")
+            #raise Http404("Not all fields are filled out.")
+            return success_response(False, "Not all fields are filled out", 200)
 
         auth_token = create_authenticator(instance)
         return success_response(True, "New item added", 200)
@@ -129,11 +130,6 @@ def create_user(request):
 def create_computer(request):
     if request.method == 'POST':
         try:
-            auth_token = Authenticator.objects.get(authenticator=request.POST.get('auth_token',''))
-            user = auth_token.user_id
-        except:
-            return success_response(False, "Must log in to post a computer", 404)
-        try:
             iMake = request.POST["make"]
             iModel = request.POST["model"]
             iCondition = request.POST["condition"]
@@ -142,7 +138,8 @@ def create_computer(request):
             instance = Computer(make=iMake, model=iModel, condition=iCondition, description=iDescription)
             instance.save()
         except:
-            raise Http404("Not all fields are filled out.")
+            #raise Http404("Not all fields are filled out.")
+            return success_response(False, "could not create computer", 200)
         return success_response(True, "New computer added", 200)
     else:
         return success_response(False, "Invalid HTTP request", 404)

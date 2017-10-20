@@ -2,6 +2,20 @@ from django.db import models
 
 # Create your models here.
 
+class User(models.Model):
+	
+	#Fields 
+	username = models.CharField(max_length=100)
+	password = models.CharField(max_length=100)
+	email = models.CharField(max_length=100)
+
+	#Methods 
+	def toJson(self):
+		return dict(user_id = self.id,
+					username = self.username,
+					password = self.password,
+					email = self.email)
+
 
 class Computer(models.Model):
     #Fields
@@ -21,21 +35,6 @@ class Computer(models.Model):
                     description = self.description)
                     #price = self.price,
                     #user_id = self.user_id)
-
-
-class User(models.Model):
-	
-	#Fields 
-	username = models.CharField(max_length=100)
-	password = models.CharField(max_length=100)
-	email = models.CharField(max_length=100)
-
-	#Methods 
-	def toJson(self):
-		return dict(user_id = self.id,
-					username = self.username,
-					password = self.password,
-					email = self.email)
 
 
 class Review(models.Model):
