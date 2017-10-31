@@ -133,3 +133,13 @@ def computer_detail(request, computer_id):
     else:
         return render(request, 'detail.html', resp['data'])
 
+
+def search(request):
+    query = request.GET.get('query', '').strip()
+    if not query:
+        return render(request, 'search_result.html', {'results': [], 'query': query})
+    resp = get_request(expApi + 'search/?query=' + query)
+    if resp['status']:
+        return render(request, 'search_result.html', {'results': resp['data'], 'query': query})
+    else:
+        return render(request, 'search_result.html', {'results': [], 'query': query})

@@ -1,6 +1,8 @@
 import urllib.request
 import urllib.parse
 import json
+from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse, Http404
 
@@ -34,13 +36,33 @@ def create_user(request):
 
 @csrf_exempt
 def create_computer(request):
-    resp = post_request(modelsApi + "computer/create/", {
+    post_data = {
         "make": request.POST.get("make", ""),
         "model": request.POST.get("model", ""),
         "condition": request.POST.get("condition", ""),
         "description": request.POST.get("description", "")
-    })
+    }
+    resp = post_request(modelsApi + "computer/create/", post_data)
+
+    if resp["success"]:
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        computer = {
+            'make': post_data["make"],
+            'model': post_data["model"],
+            'description': post_data["description"],
+            'condition': post_data["condition"],
+            'id': resp["data"]["id"]
+        }
+        producer.send('new-listings-topic', json.dumps(computer).encode('utf-8'))
     return JsonResponse(resp)
+
+
+#def get_computer(request):
+#   if request.method == 'GET':
+#        query = request.get('query', '').strip()
+#        try:
+#        except Exception as e:
+#            return
 
 
 @csrf_exempt
