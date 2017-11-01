@@ -49,5 +49,5 @@ batch:
       - kafka:kafka
       - es:es
    volumes:
-      - .:/app
-   command: bash -c "python batch_script.py"
+      - ./batchscript:/app
+   command: bash -c "python batchscript.py"
