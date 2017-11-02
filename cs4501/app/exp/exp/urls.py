@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^api/user/login/$', views.login, name='login'),
     url(r'^api/user/logout/$', views.logout, name='logout'),
     url(r'^api/authenticator/check/$', views.check_authenticator, name='check_authenticator'),
+    url(r'^api/computer/search/', views.search_computer, name='search_computer'),
 ]

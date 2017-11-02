@@ -138,11 +138,11 @@ def create_computer(request):
             instance = Computer(make=iMake, model=iModel, condition=iCondition, description=iDescription)
             instance.save()
             response = {}
-            response["id"] = instance.id
+            response["id"] = instance.pk
         except:
             return success_response(False, "could not create computer", 200)
         #return success_response(True, "New computer added", 200)
-        return success_response(True, response)
+        return success_response(True, response, 200)
     else:
         return success_response(False, "Invalid HTTP request", 404)
 

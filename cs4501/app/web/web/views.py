@@ -138,7 +138,7 @@ def search(request):
     query = request.GET.get('query', '').strip()
     if not query:
         return render(request, 'search_result.html', {'results': [], 'query': query})
-    resp = get_request(expApi + 'search/?query=' + query)
+    resp = get_request(expApi + 'computer/search/?query=' + query)
     if resp['status']:
         return render(request, 'search_result.html', {'results': resp['data'], 'query': query})
     else:

@@ -1,10 +1,16 @@
 from elasticsearch import Elasticsearch
 from kafka import KafkaConsumer
-import json
+import json, time
 
+consumer = None
+es = None
 
-consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
-es = Elasticsearch(['es'])
+while consumer is None or es is None:
+    try:
+        consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
+        es = Elasticsearch(['es'])
+    except:
+        time.sleep(1)
 
 
 for message in consumer:

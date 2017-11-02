@@ -1,0 +1,25 @@
+{% block content %}
+
+<div class="text-center jumbotron" style="background: darkred;">
+	<div class="container-fluid">
+		<h3 style="color:white;"> Search Results for {{ query }}</h3>
+	</div>
+</div>
+{% if results %}
+
+{% for computer in results %}
+	<div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <div class="caption">
+			        <div>
+						<a href="{% url 'computer_detail_page' computer.id %}"><h3> {{computer.make}} {{computer.model}} </h3></a>
+					</div>
+			      </div>
+			    </div>
+			</div>
+{% endfor %}
+{% else %}
+	<center><h2> No Computer Found </h2></center>
+{% endif %}
+
+{% endblock %}

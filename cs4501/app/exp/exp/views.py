@@ -8,6 +8,7 @@ from django.http import HttpResponse, JsonResponse, Http404
 
 
 modelsApi = 'http://models-api:8000/api/v1/'
+es = Elasticsearch(['es'])
 
 
 def get_request(url):
@@ -44,7 +45,7 @@ def create_computer(request):
     }
     resp = post_request(modelsApi + "computer/create/", post_data)
 
-    if resp["success"]:
+    if resp["status"]:
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
         computer = {
             'make': post_data["make"],
@@ -57,12 +58,19 @@ def create_computer(request):
     return JsonResponse(resp)
 
 
-#def get_computer(request):
-#   if request.method == 'GET':
-#        query = request.get('query', '').strip()
-#        try:
-#        except Exception as e:
-#            return
+def search_computer(request):
+   if request.method == 'GET':
+        query = request.GET.get('query', '').strip()
+        try:
+            result = es.search(index='listing_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
+        except Exception as e:
+            return JsonResponse({"status": False, "data": str(e)})
+        results = []
+        for item in result['hits']['hits']:
+            results.append(item['_source'])
+        return JsonResponse({"status": True, "data": results})
+   else:
+       return JsonResponse({"status": False, "data": "Must be a GET request"})
 
 
 @csrf_exempt
