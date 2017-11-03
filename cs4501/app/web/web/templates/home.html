@@ -18,9 +18,16 @@
 				<h1>Welcome to ByteMe</h1>
 				<p>We strive to provide you with the best quality computers at low prices</p>
 			</font>
-			<p><a class="btn btn-primary btn-lg" href="/login/" role="button">Log in</a>
-			<a class="btn btn-primary btn-lg" href="/signup/" role="button">Sign up</a>
-                <a class="btn btn-primary btn-lg" href="/logout/" role="button">Log out</a></p><br>
+            {% if loggedIn == True %}
+            <p>
+                <a class="btn btn-primary btn-lg" href="/logout/" role="button">Log out</a>
+            </p><br>
+            {% else %}
+			<p>
+                <a class="btn btn-primary btn-lg" href="/login/" role="button">Log in</a>
+                <a class="btn btn-primary btn-lg" href="/signup/" role="button">Sign up</a>
+            </p>
+            {% endif %}
             <p><a class="btn btn-primary btn-lg" href="/createlisting/" role="button">Create New Listing</a></p>
 		</div>
 	</div>

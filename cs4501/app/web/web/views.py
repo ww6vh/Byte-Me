@@ -10,6 +10,8 @@ import json
 
 expApi = 'http://exp-api:8000/api/'
 
+loggedIn = False
+
 
 def get_request(url):
     req = urllib.request.Request(url)
@@ -54,11 +56,13 @@ def signup(request):
 
 @csrf_exempt
 def login(request):
+    global loggedIn
     #return HttpResponse(request.COOKIES.get('auth_token'))
     auth = request.COOKIES.get('auth_token', '')
     #auth_check = request_get(expApi + 'authenticator/check/', auth)
     #if auth_check['status'] is True:
     if auth:
+        loggedIn = True
         return HttpResponseRedirect(reverse('home'))
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -70,6 +74,7 @@ def login(request):
             else:
                 auth_token = resp['data']['auth_token']
                 response = HttpResponseRedirect(reverse('home'))
+                loggedIn = True
                 response.set_cookie('auth_token', auth_token)
                 return response
         else:
@@ -104,11 +109,13 @@ def create_listing(request):
 
 @csrf_exempt
 def logout(request):
+    global loggedIn
     auth = request.COOKIES.get('auth_token')
     if not auth:
         return HttpResponseRedirect(reverse('login'))
     response = HttpResponseRedirect(reverse('home'))
     response.delete_cookie('auth_token')
+    loggedIn = False
     #data = {'auth_token': auth}
     #resp = post_request(expApi + 'user/logout/', data)
     return response
@@ -122,6 +129,7 @@ def index(request):
     auth_token = request.COOKIES.get('auth_token')
     if auth_token:
         context['message'] = "You are logged in"
+    context['loggedIn'] = loggedIn
     #return render(request, 'home.html', resp['data'])
     return render(request, 'home.html', context)
 
