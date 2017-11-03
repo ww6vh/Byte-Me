@@ -18,4 +18,3 @@ class CreateListingForm(forms.Form):
     model = forms.CharField(label="Model", max_length=100)
     condition = forms.CharField(label="Condition", max_length=10)
     description = forms.CharField(label='Description', max_length=500)
-    #price = forms.IntegerField(label="Price")

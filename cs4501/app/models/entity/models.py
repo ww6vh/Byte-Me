@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 class User(models.Model):
 	
 	#Fields 
@@ -52,4 +50,3 @@ class Authenticator(models.Model):
 	authenticator = models.CharField(max_length=64, primary_key=True, blank=False)
 	user_id = models.OneToOneField(User, on_delete=models.CASCADE)
 	date_created = models.DateTimeField()
-

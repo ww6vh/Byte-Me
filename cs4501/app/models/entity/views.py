@@ -59,7 +59,6 @@ def get_computer(request, pk):
 	try:
 		computer_instance = Computer.objects.get(pk=pk)
 	except Computer.DoesNotExist:
-		#raise Http404("Computer does not exist")
 		return success_response(False, "Computer does not exist", 404)
 
 	if request.method == 'GET':
@@ -117,7 +116,6 @@ def create_user(request):
             instance = User(username=iUsername, password=make_password(iPassword), email=iEmail)
             instance.save()
         except:
-            #raise Http404("Not all fields are filled out.")
             return success_response(False, "Not all fields are filled out", 200)
 
         auth_token = create_authenticator(instance)
@@ -138,14 +136,12 @@ def create_computer(request):
             iModel = request.POST["model"]
             iCondition = request.POST["condition"]
             iDescription = request.POST["description"]
-            #iPrice = request.POST["price"]
             instance = Computer(make=iMake, model=iModel, condition=iCondition, description=iDescription)
             instance.save()
             response = {}
             response["id"] = instance.pk
         except:
             return success_response(False, "could not create computer", 200)
-        #return success_response(True, "New computer added", 200)
         return success_response(True, response, 200)
     else:
         return success_response(False, "Invalid HTTP request", 404)

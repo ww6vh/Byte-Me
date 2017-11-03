@@ -102,7 +102,6 @@ def create_listing(request):
                 response = HttpResponseRedirect(reverse('home'))
                 return response
         else:
-            #form = CreateListingForm()
             return render(request, 'createlisting.html', {'createlisting_form': form, 'message': "Invalid information", 'auth_token': auth_token})
 
     if request.method == 'GET':
@@ -119,8 +118,6 @@ def logout(request):
     response = HttpResponseRedirect(reverse('home'))
     response.delete_cookie('auth_token')
     loggedIn = False
-    #data = {'auth_token': auth}
-    #resp = post_request(expApi + 'user/logout/', data)
     return response
 
 
@@ -135,7 +132,6 @@ def index(request):
         context['message'] = "You are logged in"
         loggedIn = True
     context['loggedIn'] = loggedIn
-    #return render(request, 'home.html', resp['data'])
     return render(request, 'home.html', context)
 
 
