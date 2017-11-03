@@ -130,6 +130,10 @@ def create_user(request):
 def create_computer(request):
     if request.method == 'POST':
         try:
+            authenticator = Authenticator.objects.get(authenticator=request.POST.get('auth_token', ''))
+        except:
+            return success_response(False, "Must log in to create new listing", 200)
+        try:
             iMake = request.POST["make"]
             iModel = request.POST["model"]
             iCondition = request.POST["condition"]

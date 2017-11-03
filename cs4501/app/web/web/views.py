@@ -57,17 +57,13 @@ def signup(request):
 @csrf_exempt
 def login(request):
     global loggedIn
-    #return HttpResponse(request.COOKIES.get('auth_token'))
     auth = request.COOKIES.get('auth_token', '')
-    #auth_check = request_get(expApi + 'authenticator/check/', auth)
-    #if auth_check['status'] is True:
     if auth:
         loggedIn = True
         return HttpResponseRedirect(reverse('home'))
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            #return HttpResponse(form.cleaned_data['username'])
             resp = post_request(expApi + 'user/login/', form.cleaned_data)
             if not resp or resp['status'] is False:
                 return render(request, 'login.html', {'login_form': form, 'message': resp['data']})
@@ -92,7 +88,14 @@ def create_listing(request):
     if request.method == 'POST':
         form = CreateListingForm(request.POST)
         if form.is_valid():
-            resp = post_request(expApi + 'computer/create/', form.cleaned_data)
+            data = {
+                "auth_token": str(auth_token),
+                "make": form.cleaned_data["make"],
+                "model": form.cleaned_data["model"],
+                "condition": form.cleaned_data["condition"],
+                "description": form.cleaned_data["description"]
+            }
+            resp = post_request(expApi + 'computer/create/', data)
             if not resp or resp['status'] is False:
                 return render(request, 'createlisting.html', {'createlisting_form': form, 'message': resp['data'], 'auth_token': auth_token})
             else:
@@ -122,6 +125,7 @@ def logout(request):
 
 
 def index(request):
+    global loggedIn
     resp = get_request(expApi + 'popular/')
     context = {}
     if resp['status'] is True:
@@ -129,6 +133,7 @@ def index(request):
     auth_token = request.COOKIES.get('auth_token')
     if auth_token:
         context['message'] = "You are logged in"
+        loggedIn = True
     context['loggedIn'] = loggedIn
     #return render(request, 'home.html', resp['data'])
     return render(request, 'home.html', context)

@@ -34,7 +34,7 @@ class Computer(models.Model):
                     condition = self.condition,
                     description = self.description)
                     #price = self.price,
-                    #user_id = self.user_id)
+                    #user_id = User.toJson(self.user_id))
 
 
 class Review(models.Model):

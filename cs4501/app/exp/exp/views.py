@@ -38,6 +38,7 @@ def create_user(request):
 @csrf_exempt
 def create_computer(request):
     post_data = {
+        "auth_token": request.POST.get("auth_token", ""),
         "make": request.POST.get("make", ""),
         "model": request.POST.get("model", ""),
         "condition": request.POST.get("condition", ""),
