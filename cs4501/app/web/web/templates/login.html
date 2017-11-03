@@ -22,9 +22,17 @@
             <div class="form-group">
                 <label for="{{field.name}}">{{field.label}}: </label><br>
                 {% if field.value != None %}
-                    <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
+                    {% if field.name == "password" %}
+                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}"  value="{{field.value}}">
+                    {% else %}
+                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
+                    {% endif %}
                 {% else %}
-                    <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
+                    {% if field.name == "password" %}
+                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}">
+                    {% else %}
+                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
+                    {% endif %}
                 {% endif %}
             </div>
             {% endfor%}
