@@ -11,35 +11,51 @@
 {% block content %}
 
     <p><a class="btn btn-default" href="/" role="button"> &laquo; Back </a></p>
-    <div class="jumbotron" align="center">
-        <h2>Sign up</h2><br>
-        <form action="/signup/" method="post">
-            {% csrf_token %}
-            {% if message %}
-                {{ message }}<br><br>
-            {% endif %}
-            {% for field in signup_form %}
-            <div class="form-group">
-                <label for="{{field.name}}">{{field.label}}: </label><br>
-                {% if field.value != None %}
-                    {% if field.name == "password" or field.name == "confirm_password"%}
-                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}"  value="{{field.value}}">
-                    {% else %}
-                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
-                    {% endif %}
-                    
-                {% else %}
-                    {% if field.name == "password" or field.name == "confirm_password"%}
-                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}">
-                    {% else %}
-                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
-                    {% endif %}
+    <div class="container-fluid" align="center">
 
-                {% endif %}
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <h2>Sign up</h2><br>
+                        <form action="/signup/" method="post">
+                            {% csrf_token %}
+                            {% if message %}
+                                {{ message }}<br><br>
+                            {% endif %}
+                            {% for field in signup_form %}
+                            <div class="form-group">
+                                <label for="{{field.name}}">{{field.label}}: </label><br>
+                                {% if field.value != None %}
+                                    {% if field.name == "password" or field.name == "confirm_password"%}
+                                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}"  value="{{field.value}}">
+                                    {% else %}
+                                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
+                                    {% endif %}
+
+                                {% else %}
+                                    {% if field.name == "password" or field.name == "confirm_password"%}
+                                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}">
+                                    {% else %}
+                                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
+                                    {% endif %}
+
+                                {% endif %}
+                            </div>
+                            {% endfor%}
+                            <button class="btn btn-success" type="submit">Sign up</button>
+                        </form>
+                    </div>
+
+                    <div class="panel-footer">
+                        Already have an account? <a href="/login/">Click here</a> to log in.
+                    </div>
+
+                </div>
             </div>
-            {% endfor%}
-            <button type="submit">Sign up</button>
-        </form>
+        </div>
+
     </div>
 
 {% endblock %}

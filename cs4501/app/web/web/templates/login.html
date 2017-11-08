@@ -11,33 +11,48 @@
 {% block content %}
 
     <p><a class="btn btn-default" href="/" role="button"> &laquo; Back </a></p>
-    <div class="jumbotron" align="center">
-        <h2>Log In</h2><br>
-        <form action="/login/" method="post">
-            {% csrf_token %}
-            {% if message %}
-                {{ message }}<br><br>
-            {% endif %}
-            {% for field in login_form %}
-            <div class="form-group">
-                <label for="{{field.name}}">{{field.label}}: </label><br>
-                {% if field.value != None %}
-                    {% if field.name == "password" %}
-                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}"  value="{{field.value}}">
-                    {% else %}
-                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
-                    {% endif %}
-                {% else %}
-                    {% if field.name == "password" %}
-                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}">
-                    {% else %}
-                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
-                    {% endif %}
-                {% endif %}
+
+    <div class="contianer-fluid" align="center">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <h2>Log In</h2><br>
+                        <form action="/login/" method="post">
+                            {% csrf_token %}
+                            {% if message %}
+                                {{ message }}<br><br>
+                            {% endif %}
+                            {% for field in login_form %}
+                            <div class="form-group">
+                                <label for="{{field.name}}">{{field.label}}: </label><br>
+                                {% if field.value != None %}
+                                    {% if field.name == "password" %}
+                                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}"  value="{{field.value}}">
+                                    {% else %}
+                                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}"  value="{{field.value}}">
+                                    {% endif %}
+                                {% else %}
+                                    {% if field.name == "password" %}
+                                        <input id="{{field.name}}" type="password" size="30" name="{{field.name}}">
+                                    {% else %}
+                                        <input id="{{field.name}}" type="text" size="30" name="{{field.name}}">
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% endfor%}
+                            <button class="btn btn-success" type="submit">Log In</button>
+                        </form>
+                    </div>
+
+                    <div class="panel-footer">
+                        Don't have an account? <a href="/login/">Click here</a> to sign up.
+                    </div>
+                </div>
             </div>
-            {% endfor%}
-            <button type="submit">Log In</button>
-        </form>
+        </div>
     </div>
 
 {% endblock %}
