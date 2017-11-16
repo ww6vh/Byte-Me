@@ -30,6 +30,25 @@ web:
       - ./web:/app
    command: "mod_wsgi-express start-server --reload-on-changes ./web/wsgi.py"
 
+web1:
+   image: tp33/django
+   links:
+      - exp:exp-api
+   ports:
+      - "8003:8000"
+   volumes:
+      - ./web:/app
+   command: "mod_wsgi-express start-server --reload-on-changes ./web/wsgi.py"
+
+haproxy:
+   build: ./haproxy
+   container_name: haproxy
+   ports:
+      - "8006:8000"
+   links:
+      - web:web
+      - web1:web1
+
 kafka:
    image: spotify/kafka
    container_name: kafka
