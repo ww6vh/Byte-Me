@@ -9,26 +9,26 @@ sudo: required
 
 services:
   - docker
-  - mysql
 
 before_install:
-- docker pull tp33/django
-- docker pull mysql:5.7.14
-- docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
-- docker ps -a
-- docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 bash
-- mysql -uroot -p'$3cureUS' -h db
-- create user 'www'@'%' identified by '$3cureUS';
-- create database cs4501 character set utf8;
-- grant all on cs4501.* to 'www'@'%';
-- ^DBye
-- cd cs4501/app
-- docker-compose up
+  - docker pull mysql:5.7.14
+  - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
+  - sleep 30
+  - docker ps -a
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+  - docker start mysql
+
+before_script:
+  - cd cs4501/app
+  - docker-compose up -d
 
 # command to install dependencies
-install:
-  - pip install -r requirements.txt
+#install:
+#  - pip install -r requirements.txt
 
 # command to run tests
 script:
   - docker exec -it app_models_1 bash -c "python manage.py test"
+  
+after_script:
+  - docker-compose down
