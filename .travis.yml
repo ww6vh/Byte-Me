@@ -5,10 +5,31 @@ python:
 
 cache: pip
 
+sudo: required
+
+services:
+  - docker
+  - mysql
+
+before_install:
+- docker pull tp33/django
+- docker pull mysql:5.7.14
+- docker run -it --name web -v ~/cs4501/app:/app tp33/django
+- docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
+- docker ps -a
+- docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 bash
+- mysql -uroot -p'$3cureUS' -h db
+- create user 'www'@'%' identified by '$3cureUS';
+- create database cs4501 character set utf8;
+- grant all on cs4501.* to 'www'@'%';
+- ^DBye
+- cd cs4501/app
+- docker-compose up
+
 # command to install dependencies
 install:
   - pip install -r requirements.txt
 
 # command to run tests
 script:
-  - python test.py
+  - docker exec -it app_models_1 bash -c "python manage.py test"
