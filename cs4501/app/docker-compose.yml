@@ -49,6 +49,24 @@ haproxy:
       - web:web
       - web1:web1
 
+selenium-chrome:
+  image: selenium/standalone-chrome
+  container_name: selenium-chrome
+  links:
+    - web:web
+  ports:
+    - "4444:4444"
+
+selenium:
+  image: tp33/django
+  container_name: selenium
+  links:
+    - selenium-chrome:selenium-chrome
+    - web:web
+  volumes:
+    - .:/app
+  command: bash -c "pip install selenium==3.7.0 && python selenium_test.py"
+
 kafka:
    image: spotify/kafka
    container_name: kafka
