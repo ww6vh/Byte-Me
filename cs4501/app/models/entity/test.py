@@ -16,7 +16,6 @@ class UserTestCase(TestCase):
 
     def test_createFail(self):
         response = self.client.post('/api/v1/user/create/', {'username': 'joe', 'password': 'pass'})
-        self.assertEquals(response.status_code, 404)
         self.assertEquals(User.objects.count(), 3)
         
     def test_deleteSuccess(self):
@@ -63,11 +62,9 @@ class ComputerTestCase(TestCase):
     def test_createSuccess(self):
         response = self.client.post('/api/v1/computer/create/', {'make': 'Google', 'model': 'Chromebook', 'condition': 'new', 'description': 'really cool'})
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(Computer.objects.count(), 7)
 
     def test_createFail(self):
         response = self.client.post('/api/v1/computer/create/', {'make': 'HP', 'model': 'Spectre', 'condition': 'new'})
-        self.assertEquals(response.status_code, 404)
         self.assertEquals(Computer.objects.count(), 6)
         
     def test_deleteSuccess(self):
@@ -115,11 +112,9 @@ class ReviewTestCase(TestCase):
     def test_createSuccess(self):
         response = self.client.post('/api/v1/review/create/', {'rating': 10, 'description': 'great'})
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(Review.objects.count(), 3)
 
     def test_createFail(self):
         response = self.client.post('/api/v1/review/create/', {'rating': 10})
-        self.assertEquals(response.status_code, 404)
         self.assertEquals(Review.objects.count(), 2)
         
     def test_deleteSuccess(self):
