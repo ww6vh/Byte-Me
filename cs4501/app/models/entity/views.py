@@ -238,10 +238,10 @@ def check_authenticator(request):
         try:
             auth = Authenticator.objects.get(authenticator=auth_token)
         except:
-            return success_response(False, "Authenticator does not exist", 404)
-        return success_response(True, {"user_id": auth.user.id, "username": auth.user.username}, 200)
+            return success_response(False, "Authenticator does not exist", 200)
+        return success_response(True, {"user_id": auth.user_id.id}, 200)
     else:
-        return success_response(False, "Invalid HTTP request", 404)
+        return success_response(False, "Invalid HTTP request", 200)
 
 
 @csrf_exempt

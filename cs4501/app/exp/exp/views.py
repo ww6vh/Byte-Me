@@ -120,4 +120,13 @@ def computer_detail(request, id):
         computer = []
     else:
         computer = resp['data']
+        auth_token = request.GET.get("auth_token", "")
+        user_resp = get_request(modelsApi + 'authenticator/check/' + '?auth_token='+auth_token)
+        if user_resp['status']:
+            producer = KafkaProducer(bootstrap_servers='kafka:9092')
+            user_info = {
+                'user_id': user_resp["data"]["user_id"],
+                'item_id': id,
+                }
+            producer.send('clickedListings-topic', json.dumps(user_info).encode('utf-8'))
     return JsonResponse({"status": True, "data": {"computer": computer}})
