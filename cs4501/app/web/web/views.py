@@ -136,7 +136,7 @@ def index(request):
 
 
 def computer_detail(request, computer_id):
-    auth_token = request.COOKIES.get('auth_token').strip()
+    auth_token = request.COOKIES.get('auth_token')
     if not auth_token:
         return HttpResponseRedirect(reverse('login'))
     resp = get_request(expApi + 'computer/' + computer_id + '/' + '?auth_token='+auth_token)
