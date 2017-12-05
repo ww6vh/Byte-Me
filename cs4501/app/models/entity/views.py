@@ -259,6 +259,7 @@ def authenticate_user(request):
         return success_response(False, "Either username or password is invalid", 200)
 
 
+@csrf_exempt
 def provide_recommendations(request, id):
     try:
         rec = Recommendations.objects.get(item_id=id)

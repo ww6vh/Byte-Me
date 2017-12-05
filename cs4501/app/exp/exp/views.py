@@ -107,8 +107,8 @@ def populer_computers(request):
         computers = []
     else:
         #computers = resp['data']
-        if len(resp['data']) > 3:
-            computers = resp['data'][-3:]
+        if len(resp['data']) > 4:
+            computers = resp['data'][-4:]
         else:
             computers = resp['data']
     return JsonResponse({"status": True, "data": {"computers": computers}})
@@ -127,7 +127,7 @@ def computer_detail(request, id):
 
         rec_resp = get_request(modelsApi + 'recommendations/' + id + '/')
         if rec_resp['status'] == False:
-            norec = "There are no recommendation"
+            norec = "There is no recommendation"
         else:
             rec_list = rec_resp['data']['recommended_items'].split(',')
             for rec in rec_list:

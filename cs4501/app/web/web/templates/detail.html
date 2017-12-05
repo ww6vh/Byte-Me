@@ -31,5 +31,25 @@
 		</div>
 	</div>
 
+	<div class="container">
+		<div class="row">
+			<div class="container">
+				<h3 align="center">People also viewed:<hr></h3>
+			</div>
+			{% if norec == "" %}
+			{% for item in rec_items %}
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+				<h3>{{item.make}} {{item.model}}</h3>
+				<p><a class="btn btn-default" href="/computerdetail/{{ item.computer_id }}/" role="button">View
+					details &raquo;</a></p>
+			</div>
+			{% endfor %}
+			{% else %}
+			<strong>{{ norec }}</strong>
+			{% endif %}
+
+		</div>
+	</div>
+
 </body>
 </html>
