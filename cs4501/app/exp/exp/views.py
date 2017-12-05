@@ -116,12 +116,24 @@ def populer_computers(request):
 
 def computer_detail(request, id):
     resp = get_request(modelsApi + 'computer/' + id + '/')
+    recommendations = []
+    norec = ""
     if resp['status'] != True:
         computer = []
     else:
         computer = resp['data']
         auth_token = request.GET.get("auth_token", "")
         user_resp = get_request(modelsApi + 'authenticator/check/' + '?auth_token='+auth_token)
+
+        rec_resp = get_request(modelsApi + 'recommendations/' + id + '/')
+        if rec_resp['status'] == False:
+            norec = "There are no recommendation"
+        else:
+            rec_list = rec_resp['data']['recommended_items'].split(',')
+            for rec in rec_list:
+                response = get_request(modelsApi + 'computer/' + rec + '/')
+                recommendations.append(response['data'])
+
         if user_resp['status']:
             producer = KafkaProducer(bootstrap_servers='kafka:9092')
             user_info = {
@@ -129,4 +141,4 @@ def computer_detail(request, id):
                 'item_id': id,
                 }
             producer.send('clickedListings-topic', json.dumps(user_info).encode('utf-8'))
-    return JsonResponse({"status": True, "data": {"computer": computer}})
+    return JsonResponse({"status": True, "data": {"computer": computer, "rec_items": recommendations, "norec": norec}})

@@ -257,3 +257,11 @@ def authenticate_user(request):
             return success_response(False, "Either username or password is invalid", 200)
     except:
         return success_response(False, "Either username or password is invalid", 200)
+
+
+def provide_recommendations(request, id):
+    try:
+        rec = Recommendations.objects.get(item_id=id)
+        return success_response(True, rec.toJson(), 200)
+    except Recommendations.DoesNotExist:
+        return success_response(False, "There are no recommendation", 200)

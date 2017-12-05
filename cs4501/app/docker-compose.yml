@@ -106,6 +106,8 @@ spark-master:
   command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
   container_name: spark-master
   hostname: spark-master
+  external_links:
+    -  mysql:db
   environment:
     MASTER: spark://spark-master:7077
     SPARK_CONF_DIR: /conf
@@ -131,6 +133,8 @@ spark-worker:
   command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
   container_name: spark-worker
   hostname: spark-worker
+  external_links:
+    -  mysql:db
   environment:
     SPARK_CONF_DIR: /conf
     SPARK_WORKER_CORES: 2

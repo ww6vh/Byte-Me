@@ -24,4 +24,6 @@ urlpatterns = [
 	url(r'^api/v1/authenticator/create/$', views.create_authenticator, name = "create_authenticator"),
 	url(r'^api/v1/authenticator/delete/$', views.delete_authenticator, name = "delete_authenticator"),
 
+	url(r'^api/v1/recommendations/(?P<pk>[0-9]+)/$', views.provide_recommendations, name="provide_recommendations"),
+
 ]

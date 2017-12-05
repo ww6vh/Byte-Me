@@ -50,3 +50,13 @@ class Authenticator(models.Model):
 	authenticator = models.CharField(max_length=64, primary_key=True, blank=False)
 	user_id = models.OneToOneField(User, on_delete=models.CASCADE)
 	date_created = models.DateTimeField()
+
+
+class Recommendations(models.Model):
+	item_id = models.CharField(primary_key=True, max_length=255)
+	recommended_items = models.CharField(max_length=300)
+
+	#Method
+	def toJson(self):
+		return dict(item_id = self.item_id,
+					recommended_items = self.recommended_items)

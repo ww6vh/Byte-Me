@@ -21,10 +21,17 @@ sc.stop()
 
 from pyspark import SparkContext
 from itertools import combinations
+import MySQLdb
 
 sc = SparkContext("spark://spark-master:7077", "CoViews")
 
 data = sc.textFile("/tmp/data/accessLog.txt", 2)     # each worker loads a piece of the data file
+
+db = MySQLdb.connect('db', 'www', '$3cureUS', 'cs4501')
+cursor = db.cursor()
+print("Clearing Recommendations Table")
+cursor.execute("TRUNCATE TABLE entity_recommendations;")
+
 pairs = data.map(lambda line: line.split("\t"))  # tell each worker to split each line of it's partition
 #groups = pairs.map(lambda pair: (str(pair[0]),str(pair[1]) ))
 grouped = pairs.groupByKey().map(lambda x : (x[0], list(x[1])))
@@ -45,6 +52,20 @@ for user_id, count in output:
 print ("Popular items done")
 
 '''
-for user_id, count in filtered:
-    print ("Products %s count %d" % (user_id, count))
+for product_id, count in filtered:
+    product0 = str(product_id[0])
+    product1 = str(product_id[1])
+    cursor.execute(
+        "INSERT INTO entity_recommendations (item_id, recommended_items) VALUES (%s, %s) ON DUPLICATE KEY UPDATE recommended_items=CONCAT(recommended_items, ',', VALUES(recommended_items));",
+        (product0, product1))
+    cursor.execute(
+        "INSERT INTO entity_recommendations (item_id, recommended_items) VALUES (%s, %s) ON DUPLICATE KEY UPDATE recommended_items=CONCAT(recommended_items, ',', VALUES(recommended_items));",
+        (product1, product0))
+    db.commit()
+
+    print ("Products %s count %d" % (product_id, count))
 print ("Popular items done")
+
+sc.stop()
+
+db.close()
