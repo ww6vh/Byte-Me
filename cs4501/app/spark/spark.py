@@ -24,7 +24,7 @@ transform2 = transform1.map(lambda x: (x[1], x[0]))
 
 transform3 = transform2.groupByKey().map(lambda x: (x[0], set(x[1])))
 transform3 = transform3.map(lambda x: (x[0], len(x[1])))
-filtered = transform3.filter(lambda x: x[1] > 0).collect()
+filtered = transform3.filter(lambda x: x[1] > 2).collect()
 
 print("===========================================")
 for product_id, count in filtered:
